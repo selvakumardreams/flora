@@ -7,31 +7,23 @@ Navigating to http://localhost:8300 will display the index.html or directory
 listing file.
 */
 
-// Reference: https://github.com/madhanganesh/taskpad 
+// Reference: https://github.com/madhanganesh/taskpad
 package main
 
 import (
-	"flag"
 	"log"
 	"net/http"
+
 	"github.com/gorilla/mux"
 )
 
-func main() {
-
-	router := mux.NewRouter()
-
-	router.HandleFunc("/api/user/new", nil).Methods("POST")
-
-
-	port := flag.String("p", "8300", "port to serve on")
-	directory := flag.String("d", ".", "the directory of static file to host")
-	flag.Parse()
-
-	http.Handle("/", http.FileServer(http.Dir(*directory)))
-
-	log.Printf("Serving %s on HTTP port: %s\n", *directory, *port)
-	log.Fatal(http.ListenAndServe(":"+*port, router))
+func YourHandler(w http.ResponseWriter, r *http.Request) {
+	w.Write([]byte("Flora!\n"))
 }
 
+func main() {
 
+	r := mux.NewRouter()
+	r.HandleFunc("/test", YourHandler)
+	log.Fatal(http.ListenAndServe(":8000", r))
+}
